@@ -2,7 +2,7 @@
 ## How this was built
 
 ```
-ansible-galaxy collection init ansible-galaxy collection init networkop.nvue_base
+ansible-galaxy collection init ansible-galaxy collection init nvidia.nvue_base
 ```
 
 ## How to test 
@@ -10,7 +10,7 @@ ansible-galaxy collection init ansible-galaxy collection init networkop.nvue_bas
 https://docs.ansible.com/ansible/devel/dev_guide/developing_collections_testing.html
 
 ```
-cd nvidia/bluefield
+cd nvidia/nvue_base
 ansible-test sanity --docker default -v 
 ansible-test units --docker default -v
 ansible-test integration --docker centos8 -v
@@ -19,13 +19,13 @@ ansible-test integration --docker centos8 -v
 ## How to add a role
 
 ```
-cd nvidia/bluefield/roles
+cd nvidia/nvue_base/roles
 ansible-galaxy role init mode
 ```
 
 # Where to add a playbook
 
-`nvidia/bluefield/playbooks`
+`nvidia/nvue_base/playbooks`
 
 
 ## How to run a playbook
@@ -33,5 +33,5 @@ ansible-galaxy role init mode
 from `cwd` do:
 
 ```
-ansible-playbook nvidia.bluefield.{{ debug | network | mode_separated }}
+ansible-playbook nvidia.nvue_base.{{ debug | test }}
 ```
