@@ -1,0 +1,11 @@
+---
+# tasks file for test
+  
+- name: Set system hostname
+  nvue_base: 
+    commands:
+    - unset service syslog default server 1.1.1.1
+    - set service syslog default server 8.8.8.8
+    apply: true
+    ignore_errors: true
+    

@@ -1,0 +1,7 @@
+- name: Print all variables
+  hosts: cumulus
+  gather_facts: false
+  become: true
+ 
+  roles:
+      - { role: debug }

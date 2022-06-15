@@ -1,0 +1,7 @@
+- name: Test
+  hosts: cumulus
+  gather_facts: true   
+
+  roles:
+      - { role: test }
+  

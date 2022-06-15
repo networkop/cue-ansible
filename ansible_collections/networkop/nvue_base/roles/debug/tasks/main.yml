@@ -1,0 +1,7 @@
+---
+# tasks file for debug
+
+- name: debug
+  debug:
+    msg: "Current: {{ hostvars[inventory_hostname] | to_nice_json }} "
+
