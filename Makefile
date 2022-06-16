@@ -1,7 +1,7 @@
 default: debug
 
 debug:
-	ansible-playbook networkop.nvue_base.debug
+	ansible-playbook nvidia.nvue_base.debug
 
 test:
-	ansible-playbook  networkop.nvue_base.test -vvv
+	ansible-playbook  nvidia.nvue_base.test

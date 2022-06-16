@@ -2,6 +2,36 @@
   hosts: cumulus
   gather_facts: true   
 
-  roles:
-      - { role: test }
-  
+  tasks:
+      - name: Set system pre-login message
+        nvue_base: 
+          commands:
+          - set system message pre-login "WARNING"
+          atomic: true
+          assume_yes: true
+
+      - name: Failing task
+        nvue_base: 
+          commands:
+          - set system message post-login "WELCOME"
+          - set system m123ssage pre-login "WARNING"
+        ignore_errors: true
+
+      - name: Set system DNS
+        nvue_base: 
+          commands:
+          - unset service syslog default server 1.1.1.1
+          - set service syslog default server 8.8.8.8
+          apply: true
+          assume_yes: true
+
+      - name: Show current config
+        nvue_base: 
+          commands:
+          - config show
+          apply: false
+        register: output
+      
+      - name: Print current config
+        ansible.builtin.debug:
+          msg: "{{ output['message'] }}"

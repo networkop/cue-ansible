@@ -23,16 +23,24 @@ description: This is my longer description explaining my test module.
 
 options:
     commands:
-        description: A list of strings containing the net commands to run. Mutually exclusive with _template_.
+        description: A list of strings containing the net commands to run. 
         required: false
         type: list
     apply:
         description: When true, performs a ‘nvue apply’ at the end of the block.
         required: false
-        default: true
+        default: false
         type: bool
-    ignore_errors:
+    assume_yes:
         description: When true, adds a ‘-y’ flag to the ‘nvue apply’ command.
+        required: false
+        type: bool
+    detach:
+        description: When true, performs `nv config detach` before this block.
+        required: false
+        type: bool
+    atomic:
+        description: When true, equivalent to both `apply` and `detach` being true.
         required: false
         type: bool
 # Specify this value according to your collection
@@ -81,22 +89,27 @@ from ansible.module_utils.basic import AnsibleModule
 def run_nvue_cmd(module, command, errmsg=None):
     """Run a command, catch any nvue errors"""
     (_rc, output, _err) = module.run_command("/usr/bin/nv %s" % command)
-    if module.params.get('ignore_errors'):
+    if module.params.get('assume_yes'):
         return str(output)
+
     if _rc or 'error' in output.lower() or 'error' in _err.lower():
-        msg=errmsg if errmsg else output
-        module.fail_json(msg=msg, debug=output)
+        msg="\n".join((x for x in [errmsg, _err] if x))
+        module.fail_json(msg=msg)
     return str(output)
 
 def run_nvue(module):
     changed = False
+    atomic = module.params.get('atomic')
 
     commands = []
 
     cmds = module.params.get('commands')
     if len(cmds) > 0:
         commands = cmds
-    # elif render template
+    
+    abort_cmd = "config detach"
+    if module.params.get('detach') or atomic:
+        run_nvue_cmd(module, abort_cmd)
 
     output_lines = []
 
@@ -110,16 +123,14 @@ def run_nvue(module):
     # TODO: add diff implementation
 
     apply_cmd = "config apply"
-    abort_cmd = "config detach"
     apply = module.params.get('apply')
-    if module.params.get('ignore_errors'):
+    if module.params.get('assume_yes'):
         apply_cmd += " --assume-yes"
 
-    if apply:
+    if apply or atomic:
         result = run_nvue_cmd(module, apply_cmd)
-        if "ignore" in result.lower():
-            changed = False
-            run_nvue_cmd(module, abort_cmd)
+        output += result
+        changed = True
 
 
     return changed, output, diff
@@ -129,8 +140,10 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         commands=dict(type='list', required=False),
-        apply=dict(type='bool', required=False, default=True),
-        ignore_errors=dict(type='bool', required=False, default=False),
+        apply=dict(type='bool', required=False, default=False),
+        assume_yes=dict(type='bool', required=False, default=False),
+        detach=dict(type='bool', required=False, default=False),
+        atomic=dict(type='bool', required=False, default=False),
         save=dict(type='bool', required=False, default=False)
     )
 
