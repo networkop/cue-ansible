@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Copyright: (c) 2022, networkop <mkashin@nvidia.com>
+# Copyright: (c) 2022, NVIDIA <nvidia.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # Original design: https://github.com/ansible-collections/community.network/blob/main/plugins/modules/network/cumulus/nclu.py
@@ -26,6 +26,10 @@ options:
         description: A list of strings containing the net commands to run. 
         required: false
         type: list
+    template:
+        description: A single, multi-line string with jinja2 formatting. This string will be broken and executed by lines.
+        required: false
+        type: str
     apply:
         description: When true, performs a ‘nvue apply’ at the end of the block.
         required: false
@@ -49,7 +53,7 @@ extends_documentation_fragment:
     - my_namespace.my_collection.my_doc_fragment_name
 
 author:
-    - Michael Kashin (@networkop)
+    - Nvidia NBU SA team
 '''
 
 EXAMPLES = r'''
@@ -89,10 +93,7 @@ from ansible.module_utils.basic import AnsibleModule
 def run_nvue_cmd(module, command, errmsg=None):
     """Run a command, catch any nvue errors"""
     (_rc, output, _err) = module.run_command("/usr/bin/nv %s" % command)
-    if module.params.get('assume_yes'):
-        return str(output)
-
-    if _rc or 'error' in output.lower() or 'error' in _err.lower():
+    if _rc or 'error' in _err.lower():
         msg="\n".join((x for x in [errmsg, _err] if x))
         module.fail_json(msg=msg)
     return str(output)
@@ -103,9 +104,12 @@ def run_nvue(module):
 
     commands = []
 
-    cmds = module.params.get('commands')
-    if len(cmds) > 0:
+    cmds = module.params.get('commands', None)
+    cmd_str = module.params.get('template', None)
+    if cmds:
         commands = cmds
+    elif cmd_str:
+        commands = cmd_str.splitlines()
     
     abort_cmd = "config detach"
     if module.params.get('detach') or atomic:
@@ -140,6 +144,7 @@ def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         commands=dict(type='list', required=False),
+        template=dict(type='str', required=False),
         apply=dict(type='bool', required=False, default=False),
         assume_yes=dict(type='bool', required=False, default=False),
         detach=dict(type='bool', required=False, default=False),
@@ -164,6 +169,7 @@ def run_module():
     # supports check mode
     module = AnsibleModule(
         argument_spec=module_args,
+        mutually_exclusive=[('commands', 'template'), ('commit', 'atomic'), ('abort', 'atomic')],
         supports_check_mode=True
     )
 

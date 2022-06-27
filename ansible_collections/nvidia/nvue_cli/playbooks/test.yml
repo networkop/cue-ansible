@@ -4,29 +4,48 @@
 
   tasks:
       - name: Set system pre-login message
-        nvue_base: 
+        nvue_cli: 
           commands:
-          - set system message pre-login "WARNING"
+          - set system message pre-login "{{ MSG }}"
           atomic: true
           assume_yes: true
+        vars:
+          MSG: WARNING
 
       - name: Failing task
-        nvue_base: 
+        nvue_cli: 
           commands:
           - set system message post-login "WELCOME"
           - set system m123ssage pre-login "WARNING"
         ignore_errors: true
 
       - name: Set system DNS
-        nvue_base: 
+        nvue_cli: 
           commands:
           - unset service syslog default server 1.1.1.1
           - set service syslog default server 8.8.8.8
+
+      - name: Set prefix lists
+        nvue_cli: 
+          template: |
+            {% for rule in rules %}
+            set router policy prefix-list PL rule {{ rule.id }} match {{ rule.match }}
+            set router policy prefix-list PL rule {{ rule.id }} action {{ rule.action }}
+            {% endfor %}
           apply: true
           assume_yes: true
+        vars:
+          rules:
+          - id: 10
+            match: 1.1.1.1/32
+            action: permit
+          - id: 20
+            match: 8.8.8.8/32
+            action: deny
+
 
       - name: Show current config
-        nvue_base: 
+        nvue_cli: 
           commands:
           - config show
           apply: false
