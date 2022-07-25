@@ -1,7 +1,8 @@
-default: debug
+default: ansible cue
+ts:=$(shell date +"%s")
 
-debug:
-	ansible-playbook nvidia.nvue_cli.debug
+ansible:
+	time ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue_cli.foo
 
-test:
-	ansible-playbook  nvidia.nvue_cli.test
+cue:
+	time cue apply
