@@ -1,11 +1,11 @@
 # CUE vs Ansible 
 Exploring the following topics:
 
-* Comaring CUE with Ansible
+* Comparing CUE with Ansible
 * Migrating from Ansible to CUE
 
 
-## Speed Comparison
+## Resource Utilisation Comparison
 
 Test against a single local `cvx` device:
 
@@ -55,3 +55,17 @@ APPLY RESPONSE {
 0inputs+0outputs (0major+2239minor)pagefaults 0swaps
 ```
 
+
+Scaling to 20 switches
+
+CUE:
+```
+2.09user 0.10system 0:02.24elapsed 97%CPU (0avgtext+0avgdata 186588maxresident)k
+0inputs+0outputs (0major+61075minor)pagefaults 0swaps
+```
+
+Ansible:
+```
+2.70user 0.77system 0:11.54elapsed 30%CPU (0avgtext+0avgdata 52288maxresident)k
+960inputs+5208outputs (16major+281475minor)pagefaults 0swaps
+```
