@@ -55,10 +55,10 @@ APPLY RESPONSE {
 
 Average over 10 measurements:
 
-| A/C | CPU% | Max Mem (kB) |
-| ----|------|--------------|
-| Ansible | 77 | 51526.4 |
-| CUE | 14 | 26108.8 | 
+| A/C | CPU% | Max Mem (kB) | Time | 
+| ----|------|--------------|------|
+| Ansible | 77 | 51526.4 | 00:00:04.045 |
+| CUE | 14 | 26108.8 | 00:00:01.229 |
 
 
 
