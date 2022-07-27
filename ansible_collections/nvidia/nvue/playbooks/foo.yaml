@@ -1,0 +1,22 @@
+- name: NVUE API test
+  hosts: cumulus
+  connection: httpapi
+  gather_facts: false
+  vars:
+    ansible_network_os: nvidia.nvue.httpapi
+    ansible_httpapi_port: 8765 
+    ansible_httpapi_use_ssl: true 
+    ansible_httpapi_validate_certs: false 
+
+  tasks:
+  
+      - name: Set system pre-login message
+        nvidia.nvue.nvue_api:
+          operation: set
+          force: yes
+          wait: 0
+          data: 
+            system: 
+              message: 
+                "pre-login": "{{ MSG }}"
+

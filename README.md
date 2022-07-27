@@ -69,3 +69,11 @@ Ansible:
 2.70user 0.77system 0:11.54elapsed 30%CPU (0avgtext+0avgdata 52288maxresident)k
 960inputs+5208outputs (16major+281475minor)pagefaults 0swaps
 ```
+
+
+
+---
+
+```
+ansible-galaxy install -r ansible_collections/nvidia/nvue_cli/requirements.yml
+```
