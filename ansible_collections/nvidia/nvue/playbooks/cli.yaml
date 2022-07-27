@@ -1,0 +1,11 @@
+- name: Test
+  hosts: cumulus
+  gather_facts: false
+
+  tasks:
+      - name: Set system pre-login message
+        nvue_cli:
+          commands:
+          - set system message pre-login "{{ MSG }}"
+          atomic: true
+          assume_yes: true

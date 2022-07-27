@@ -1,12 +1,11 @@
 default: ansible cue
 ts:=$(shell date +"%s")
 
-ansible:
-	time ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.foo
+cli:
+	time ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.cli
 
 api:
 	time ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.api
-
 
 cue:
 	time cue apply
@@ -16,9 +15,8 @@ ansible-cleanup:
 
 ansible-test: ansible-cleanup
 	for step in 1 2 3 4 5 6 7 8 9 10; do \
-		time -o ansible.csv -f $$step,%P,%K,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.foo; \
+		time -o ansible.csv -f $$step,%P,%K,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.api; \
 	done
-
 
 cue-cleanup:
 	echo "#,CPU,Memory,Time" > cue.csv
