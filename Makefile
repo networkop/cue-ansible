@@ -16,7 +16,7 @@ ansible-cleanup:
 
 ansible-test: ansible-cleanup
 	for step in 1 2 3 4 5 6 7 8 9 10; do \
-		time -o ansible.csv -f $$step,%P,%M,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.foo; \
+		time -o ansible.csv -f $$step,%P,%K,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.foo; \
 	done
 
 
@@ -25,5 +25,5 @@ cue-cleanup:
 
 cue-test: cue-cleanup
 	for step in 1 2 3 4 5 6 7 8 9 10; do \
-		time -o cue.csv -f $$step,%P,%M,%E -a cue apply; \
+		time -o cue.csv -f $$step,%P,%K,%E -a cue apply; \
 	done

@@ -8,7 +8,7 @@ import json
 import time
 
 from ansible.module_utils.six.moves.urllib.error import HTTPError
-from ansible.plugins.httpapi import HttpApiBase
+from ansible_collections.ansible.netcommon.plugins.plugin_utils.httpapi_base import HttpApiBase
 
 
 class HttpApi(HttpApiBase):

@@ -7,74 +7,33 @@ Exploring the following topics:
 
 ## Resource Utilisation Comparison
 
-Test against a single local `cvx` device:
-
-```
-time ansible-playbook --extra-vars 'MSG=1658935771' nvidia.nvue.foo
-[WARNING]: running playbook inside collection nvidia.nvue
-
-PLAY [NVUE API test] *********************************************************************************************************************************************************************************************************************************************************
-
-TASK [Set system pre-login message] ******************************************************************************************************************************************************************************************************************************************
-changed: [cumulus]
-
-PLAY RECAP *******************************************************************************************************************************************************************************************************************************************************************
-cumulus                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-
-1.38user 0.15system 0:01.77elapsed 86%CPU (0avgtext+0avgdata 51396maxresident)k
-0inputs+1144outputs (0major+69036minor)pagefaults 0swaps
-```
-
-The same action but performed directly over NVUE API:
-
-```
-time cue apply
-PATCH RESPONSE: {
-  "system": {
-    "message": {
-      "pre-login": "1658935788"
-    }
-  }
-}
-
-APPLY RESPONSE {
-  "state": "apply",
-  "transition": {
-    "issue": {},
-    "progress": ""
-  }
-}
-
-0.09user 0.01system 0:00.35elapsed 30%CPU (0avgtext+0avgdata 24416maxresident)k
-0inputs+0outputs (0major+1377minor)pagefaults 0swaps
-```
-
+### Configuring a single device
 
 [Ansible Results](./ansible.csv)
 [CUE Results](./cue.csv)
 
 Average over 10 measurements:
 
-| A/C | CPU% | Max Mem (kB) | Time | 
+| A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
 | Ansible | 75 | 51755.2 | 00:04.0 |
 | CUE | 17 | 24788 | 00:01.2 |
 
 
+### Configuring 20 devices
 
-Scaling to 20 switches
+Ansible (HTTP) plugin was extremely unstable due to limited RAM (1G). The only successful strategy was to run it with fork=1 and even then it failed on 1 out of 20 switches. This is most likely due to non-persistent connections and the cost of 3 API calls per playbook.
 
-CUE:
-```
-2.09user 0.10system 0:02.24elapsed 97%CPU (0avgtext+0avgdata 186588maxresident)k
-0inputs+0outputs (0major+61075minor)pagefaults 0swaps
-```
+Average over 10 measurements:
 
-Ansible:
-```
-2.70user 0.77system 0:11.54elapsed 30%CPU (0avgtext+0avgdata 52288maxresident)k
-960inputs+5208outputs (16major+281475minor)pagefaults 0swaps
-```
+| A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
+| ----|------|--------------|------|
+| CUE | 74 | 190659.6 | 00:03.2 |
+| Ansible (HTTP) | 47 | 56419.2 | 00:38.0 |
+| Ansible (SSH) | 33 | 52049.2 | 00:08.6 |
 
+[Ansible Results (HTTP)](./ansible20-http.csv)
+[Ansible Results (SSH)](./ansible20-csv.csv)
+[CUE Results](./cue20.csv)
 
 

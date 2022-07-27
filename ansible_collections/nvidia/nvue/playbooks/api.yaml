@@ -1,6 +1,6 @@
 - name: NVUE API
   hosts: cumulus
-  connection: httpapi
+  connection: ansible.netcommon.httpapi
   gather_facts: false
   vars:
     ansible_network_os: nvidia.nvue.httpapi

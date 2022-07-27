@@ -9,15 +9,17 @@ import (
 	"tool/exec"
 )
 
-devices: ["172.17.0.3"]
-auth: base64.Encode(null, "cumulus:cumulus")
+device20: ["cumulus0", "cumulus1", "cumulus2", "cumulus3", "cumulus4", "cumulus5", "cumulus6", "cumulus7", "cumulus8", "cumulus9", "cumulus11", "cumulus12", "cumulus13", "cumulus14", "cumulus15", "cumulus16", "cumulus17", "cumulus18", "cumulus19", "cumulus20"]
+device1: ["172.17.0.3"]
+inventory: device1
+auth:      base64.Encode(null, "cumulus:cumulus")
 
 save: state: "apply"
 save: "auto-prompt": ays:           "ays_yes"
 save: "auto-prompt": "ignore_fail": "ignore_fail_yes"
 
 command: apply: {
-	for _, d in devices {
+	for _, d in inventory {
 		(d): {
 
 			date: exec.Run & {
