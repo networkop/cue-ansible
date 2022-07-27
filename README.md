@@ -56,6 +56,18 @@ APPLY RESPONSE {
 ```
 
 
+[Ansible Results](./ansible.csv)
+[CUE Results](./cue.csv)
+
+Average over 10 measurements:
+
+| A/C | CPU% | Max Mem (kB) |
+| ----|------|--------------|
+| Ansible | 77 | 51526.4 |
+| CUE | 14 | 26108.8 | 
+
+
+
 Scaling to 20 switches
 
 CUE:
@@ -72,8 +84,3 @@ Ansible:
 
 
 
----
-
-```
-ansible-galaxy install -r ansible_collections/nvidia/nvue_cli/requirements.yml
-```
