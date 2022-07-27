@@ -13,10 +13,10 @@ DOCUMENTATION = """"""
 EXAMPLES = """"""
 RETURN = """"""
 
+import json
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible.module_utils.six import string_types
-from ansible.module_utils.common import yaml
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     dict_diff,
 )
@@ -53,7 +53,7 @@ def main():
     wait = module.params["wait"]
 
     if isinstance(data, string_types):
-        data = yaml.loads(data)
+        data = json.loads(data)
 
     warnings = list()
     result = {"changed": False, "warnings": warnings}
