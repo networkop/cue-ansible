@@ -9,15 +9,12 @@ Exploring the following topics:
 
 ### Configuring a single device
 
-[Ansible Results](./ansible.csv)
-[CUE Results](./cue.csv)
-
 Average over 10 measurements:
 
 | A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| Ansible | 75 | 51755.2 | 00:04.0 |
-| CUE | 17 | 24788 | 00:01.2 |
+| [Ansible](./ansible.csv) | 75 | 51755.2 | 00:04.0 |
+| [CUE](./cue.csv) | 17 | 24788 | 00:01.2 |
 
 
 ### Configuring 20 devices
@@ -28,12 +25,9 @@ Average over 10 measurements:
 
 | A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| CUE | 74 | 190659.6 | 00:03.2 |
-| Ansible (HTTP) | 47 | 56419.2 | 00:38.0 |
-| Ansible (SSH) | 33 | 52049.2 | 00:08.6 |
+| [CUE](./cue20.csv) | 74 | 190659.6 | 00:03.2 |
+| [Ansible (HTTP)](./ansible20-http.csv) | 47 | 56419.2 | 00:38.0 |
+| [Ansible (SSH)](./ansible20-csv.csv) | 33 | 52049.2 | 00:08.6 |
 
-[Ansible Results (HTTP)](./ansible20-http.csv)
-[Ansible Results (SSH)](./ansible20-csv.csv)
-[CUE Results](./cue20.csv)
 
 
