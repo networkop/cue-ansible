@@ -13,7 +13,7 @@ Average over 10 measurements:
 
 | A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [Ansible](./ansible.csv) | 75 | 51755.2 | 00:04.0 |
+| [Ansible (HTTP)](./ansible.csv) | 82 | 51604.4 | 00:02.7 |
 | [CUE](./cue.csv) | 17 | 24788 | 00:01.2 |
 
 
