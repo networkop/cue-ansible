@@ -7,14 +7,16 @@ Exploring the following topics:
 
 ## Resource Utilisation Comparison
 
+> Memory utilisation is measured with mprof since `time` doesn't catch the memory used by Ansible's forked processes.
+
 ### Configuring a single device
 
 Average over 10 measurements:
 
-| A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
+| A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [Ansible (HTTP)](./ansible.csv) | 82 | 51604.4 | 00:02.7 |
-| [CUE](./cue.csv) | 17 | 24788 | 00:01.2 |
+| [Ansible (HTTP)](./ansible.csv) | 82 | 131.820 | 00:02.7 |
+| [CUE](./cue.csv) | 17 | 24.504 | 00:01.2 |
 
 
 ### Configuring 20 devices
