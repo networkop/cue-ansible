@@ -11,7 +11,7 @@ Exploring the following topics:
 
 ### Configuring a single device
 
-Average over 10 measurements:
+Average CPU, time and max peak memory over 10 measurements:
 
 | A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
@@ -22,13 +22,13 @@ Average over 10 measurements:
 ### Configuring 20 devices
 
 
-Average over 10 measurements:
+Average CPU, time and max peak memory over 10 measurements:
 
-| A/C | CPU% | Max Mem (kB) | Time (mm:ss.0) | 
+| A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [CUE](./cue20.csv) | 114 | 151580.4 | 00:03.2 |
-| [Ansible (HTTP)](./ansible20-http.csv) | 157 | 56401.6 | 00:10.7 |
-| [Ansible (SSH)](./ansible20-csv.csv) | 42 | 52432.4 | 00:06.6 |
+| [CUE](./cue20.csv) | 114 | 155.230 | 00:03.2 |
+| [Ansible (HTTP)](./ansible20-http.csv) | 157 | 1927.906 | 00:10.7 |
+| [Ansible (SSH)](./ansible20-csv.csv) | 42 | 1175.422 | 00:06.6 |
 
 
 
