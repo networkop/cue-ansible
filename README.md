@@ -26,7 +26,8 @@ Average CPU, time and max peak memory over 10 measurements:
 
 | A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [CUE](./test-results/cue20.csv) | 114 | [155.230](./mprofile_cue20.dat) | 00:03.2 |
+| [CUE API](./test-results/cue20.csv) | 114 | [155.230](./test-results/mprofile_cue20.dat) | 00:03.2 |
+| [CUE SSH](./test-results/cue_cli20.csv) | 10 | [208.504](./test-results/mprofile_cue_cli20.dat) | 00:08.3 |
 | [Ansible (HTTP)](./test-results/ansible20-http.csv) | 157 | [1927.906](./test-results/mprofile_ansible20-http.dat) | 00:10.7 |
 | [Ansible (SSH)](./test-results/ansible20-csv.csv) | 42 | [1175.422]((./test-results/mprofile_ansible20-cli.dat)) | 00:06.6 |
 
