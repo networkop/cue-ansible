@@ -21,14 +21,14 @@ cue-cli:
 ansible-test-cli: 
 	echo "#,CPU,Memory,Time" > ansible-cli.csv
 	for step in 1 2 3 4 5 6 7 8 9 10; do \
-		time -o test-results/ansible-api.csv -f $$step,%P,%M,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.cli; \
+		time -o test-results/ansible-cli.csv -f $$step,%P,%M,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.cli; \
 	done
 
 ## Benchmark Ansible API 
 ansible-test-api:
-	echo "#,CPU,Memory,Time" > ansible-cli.csv
+	echo "#,CPU,Memory,Time" > ansible-api.csv
 	for step in 1 2 3 4 5 6 7 8 9 10; do \
-		time -o test-results/ansible-cli.csv -f $$step,%P,%M,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.api; \
+		time -o test-results/ansible-api.csv -f $$step,%P,%M,%E -a ansible-playbook --extra-vars 'MSG=${ts}' nvidia.nvue.api; \
 	done
 
 ## Benchmark CUE API
