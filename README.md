@@ -15,8 +15,8 @@ Average CPU, time and max peak memory over 10 measurements:
 
 | A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [Ansible (HTTP)](./ansible.csv) | 82 | [131.820](./mprofile_ansible.dat) | 00:02.7 |
-| [CUE](./cue.csv) | 17 | [24.504](./mprofile_cue.dat) | 00:01.2 |
+| [Ansible (HTTP)](./test-results/ansible.csv) | 82 | [131.820](./mprofile_ansible.dat) | 00:02.7 |
+| [CUE](./test-results/cue.csv) (API) | 17 | [24.504](./mprofile_cue.dat) | 00:01.2 |
 
 
 ### Configuring 20 devices
@@ -26,9 +26,9 @@ Average CPU, time and max peak memory over 10 measurements:
 
 | A/C | CPU% | Max Mem (MB) | Time (mm:ss.0) | 
 | ----|------|--------------|------|
-| [CUE](./cue20.csv) | 114 | [155.230](./mprofile_cue20.dat) | 00:03.2 |
-| [Ansible (HTTP)](./ansible20-http.csv) | 157 | [1927.906](./mprofile_ansible20-http.dat) | 00:10.7 |
-| [Ansible (SSH)](./ansible20-csv.csv) | 42 | [1175.422]((./mprofile_ansible20-cli.dat)) | 00:06.6 |
+| [CUE](./test-results/cue20.csv) | 114 | [155.230](./mprofile_cue20.dat) | 00:03.2 |
+| [Ansible (HTTP)](./test-results/ansible20-http.csv) | 157 | [1927.906](./test-results/mprofile_ansible20-http.dat) | 00:10.7 |
+| [Ansible (SSH)](./test-results/ansible20-csv.csv) | 42 | [1175.422]((./test-results/mprofile_ansible20-cli.dat)) | 00:06.6 |
 
 
 

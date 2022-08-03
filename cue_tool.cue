@@ -7,12 +7,16 @@ import (
 	"strings"
 	"tool/http"
 	"tool/exec"
+	"text/template"
+	"tool/file"
 )
 
 device20: ["cumulus0", "cumulus1", "cumulus2", "cumulus3", "cumulus4", "cumulus5", "cumulus6", "cumulus7", "cumulus8", "cumulus9", "cumulus11", "cumulus12", "cumulus13", "cumulus14", "cumulus15", "cumulus16", "cumulus17", "cumulus18", "cumulus19", "cumulus20"]
 device1: ["172.17.0.3"]
 inventory: device1
-auth:      base64.Encode(null, "cumulus:cumulus")
+username:  "cumulus"
+password:  *"cumulus" | string @tag(password)
+auth:      base64.Encode(null, "\(username):\(password)")
 
 save: state: "apply"
 save: "auto-prompt": ays:           "ays_yes"
@@ -62,6 +66,49 @@ command: apply: {
 			ok: cli.Print & {
 				text: "APPLY RESPONSE \(apply.response.body)"
 			}
+		}
+	}
+}
+
+command: ssh: {
+	cli_template: file.Read & {
+		filename: "cli_apply.tmpl"
+		contents: string
+	}
+
+	for _, device in inventory {
+		(device): {
+			date: exec.Run & {
+				cmd: ["date", "+%s"]
+				stdout: string
+			}
+
+			cli_commands: template.Execute(cli_template.contents, {message: strings.TrimSpace(date.stdout)})
+
+			dump: file.Create & {
+				filename: "dump.txt"
+				contents: cli_commands
+			}
+
+			apply: exec.Run & {
+				cmd: ["sshpass", "-p", password, "ssh", "\(username)@\(device)", "bash", "-c", "'\(cli_commands)'"]
+				stdout: string
+				stderr: string
+			}
+
+			result: [
+				if apply.success {
+					"config applied"
+				},
+				if !apply.success {
+					"apply failed!"
+				},
+			]
+
+			print: cli.Print & {
+				text: result[0]
+			}
+
 		}
 	}
 }
