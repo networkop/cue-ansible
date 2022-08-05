@@ -1,0 +1,297 @@
+{
+    "type": "object",
+    "properties": {
+      "route_maps": {
+        "title": "route_maps",
+        "type": "array",
+        "items": {
+          "title": "route_map",
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "name",
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "sequence_numbers": {
+              "title": "sequence_numbers",
+              "type": "array",
+              "items": {
+                "title": "sequence",
+                "type": "object",
+                "properties": {
+                  "sequence": {
+                    "title": "sequence",
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "set": {
+                    "title": "set",
+                    "type": "array",
+                    "items": {
+                      "title": "set_rule",
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  },
+                  "description": {
+                    "title": "description",
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "type": {
+                    "title": "type",
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "match": {
+                    "title": "match",
+                    "type": "array",
+                    "items": {
+                      "title": "match_rule",
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "sequence",
+                  "set",
+                  "description",
+                  "type",
+                  "match"
+                ]
+              }
+            }
+          },
+          "required": [
+            "name",
+            "sequence_numbers"
+          ]
+        }
+      }
+    },
+    "required": [
+      "route_maps"
+    ]
+  }{
+  "type": "object",
+  "properties": {
+    "route_maps": {
+      "title": "route_maps",
+      "type": "array",
+      "items": {
+        "title": "route_map",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "name",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "sequence_numbers": {
+            "title": "sequence_numbers",
+            "type": "array",
+            "items": {
+              "title": "sequence",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "title": "type",
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "set": {
+                  "title": "set",
+                  "type": "array",
+                  "items": {
+                    "title": "set_rule",
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                "match": {
+                  "title": "match",
+                  "type": "array",
+                  "items": {
+                    "title": "match_rule",
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                "sequence": {
+                  "title": "sequence",
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "description": {
+                  "title": "description",
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "set",
+                "match",
+                "sequence",
+                "description"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "sequence_numbers"
+        ]
+      }
+    }
+  },
+  "required": [
+    "route_maps"
+  ]
+}
