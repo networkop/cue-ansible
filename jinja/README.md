@@ -1,6 +1,8 @@
 # Converting Ansible Jinja2-based module to CUE
 
-> Using Arista's [`eos_config` Ansible module](https://github.com/ansible-collections/arista.eos/blob/main/docs/arista.eos.eos_config_module.rst) as an example.
+> Using Arista's EOS and FRR configuration as an example:
+* [`eos_config` Ansible module](https://github.com/ansible-collections/arista.eos/blob/main/docs/arista.eos.eos_config_module.rst) 
+* [`frr` Ansible role](https://gitlab.com/cumulus-consulting/goldenturtle/cumulus_ansible_modules/-/tree/master/roles/frr)
 
 
 1. Download a Jinja2 template used by Ansible, e.g. https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_cli_config_gen/templates/eos/route-maps.j2
@@ -20,13 +22,13 @@ cp route-map.j2 template-trimmed.j2
 
 ```
 pip install jinja2schema
-./convert.py template-trimmed.j2
+./convert.py arista/template-trimmed.j2
 ```
 
 4. Using CUE API, convert the json schema into CUE definitions.
 
 ```
-go run convert.go schema.json
+go run convert.go arista/schema.cue
 ```
 
 Change the top-level container in `schema.cue` to definition (prepend `#`)

@@ -30,13 +30,13 @@ jsonrpc_body: {
 	output: ["enable", "configure"] + input + ["write"]
 }
 
-command: test: {
+command: "test-eos": {
 
 	for _, device in inventory {
 		(device): {
 			cli_commands: exec.Run & {
-				cmd: ["j2", "-f", "json", "template-trimmed.j2", "-"]
-				stdin:  json.Marshal(config)
+				cmd: ["j2", "-f", "json", "arista/template-trimmed.j2", "-"]
+				stdin:  json.Marshal(arista)
 				stdout: string
 			}
 			split_commands: strings.Split(cli_commands.stdout, "\n")
@@ -50,13 +50,13 @@ command: test: {
 	}
 }
 
-command: apply: {
+command: "apply-eos": {
 
 	for _, device in inventory {
 		(device): {
 			commands: exec.Run & {
 				cmd: ["j2", "-f", "json", "template-trimmed.j2", "-"]
-				stdin:  json.Marshal(config)
+				stdin:  json.Marshal(arista)
 				stdout: string
 			}
 
@@ -80,6 +80,32 @@ command: apply: {
 			response: cli.Print & {
 				text: "CREATE RESPONSE \(create.response.body)"
 			}
+		}
+	}
+}
+
+#frr_wrapper: {
+	input: [...string]
+	output: ["configure"] + input + ["write"]
+}
+
+command: "test-frr": {
+
+	for _, device in inventory {
+		(device): {
+			cli_commands: exec.Run & {
+				cmd: ["j2", "-f", "json", "frr/frr.j2", "-"]
+				stdin:  json.Marshal(nvidia)
+				stdout: string
+			}
+			split_commands: strings.Split(cli_commands.stdout, "\n")
+
+			wrapped_commands: #frr_wrapper & {input: split_commands}
+
+			print: cli.Print & {
+				text: strings.Join(wrapped_commands.output, "\n")
+			}
+
 		}
 	}
 }

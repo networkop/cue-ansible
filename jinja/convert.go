@@ -16,7 +16,8 @@ func main() {
 		log.Fatal("Expecting exactly one argument")
 	}
 
-	inputFileName := os.Args[1]
+	outputFileName := os.Args[1]
+	inputFileName := "schema.json"
 	inputData, err := os.ReadFile(inputFileName)
 	if err != nil {
 		log.Fatal(err)
@@ -28,13 +29,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	cfg := &jsonschema.Config{ID: "schema.json"}
+	cfg := &jsonschema.Config{ID: "schema.json", PkgName: "schema"}
 	expr, err := jsonschema.Extract(in, cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
 	b, err := format.Node(expr, format.Simplify())
-	if err := os.WriteFile("schema.cue", b, 0644); err != nil {
+	if err := os.WriteFile(outputFileName, b, 0644); err != nil {
 		log.Fatal(err)
 	}
 
