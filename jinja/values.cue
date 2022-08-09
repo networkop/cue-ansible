@@ -5,6 +5,7 @@ import (
 	frr "jinja.cue/frr:schema"
 )
 
+// losely based on https://github.com/arista-netdevops-community/ansible-avd-cloudvision-demo/blob/master/inventory/intended/structured_configs/DC1-LEAF1A.yml#L773
 arista: {
 	route_maps: eos.#route_maps & [{
 		name: "RM-MLAG-PEER-IN"
