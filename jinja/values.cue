@@ -55,17 +55,17 @@ nvidia: {
 		neighbors: [{
 			interface:  "swp51"
 			unnumbered: true
-			peergroup:  "underlay"
+			peergroup:  nvidia.bgp.peergroups[0].name
 			remote_as:  "external"
 		}, {
 			interface:  "swp52"
 			unnumbered: true
-			peergroup:  "underlay"
+			peergroup:  nvidia.bgp.peergroups[0].name
 			remote_as:  "external"
 		}]
 		vrfs: [{
 			name:      "RED"
-			router_id: "192.0.2.1"
+			router_id: nvidia.bgp.router_id
 			address_family: [{
 				name: "ipv4_unicast"
 				redistribute: [{type: "connected"}]

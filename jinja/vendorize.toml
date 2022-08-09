@@ -1,4 +1,0 @@
-target = "_vendor"
-packages = [
-    "jinja2schema",
-]
