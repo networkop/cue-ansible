@@ -1,0 +1,39 @@
+# loosely based on https://gitlab.com/cumulus-consulting/goldenturtle/cumulus_ansible_modules/-/blob/master/inventories/evpn_symmetric/group_vars/leaf/common.yml
+bgp:
+  asn: 65123
+  router_id: "192.0.2.1"
+  peergroups:
+    - {name: underlay, remote_as: external}
+  neighbors:
+    - {interface: peerlink.4094, unnumbered: true, peergroup: underlay}
+    - {interface: swp51, unnumbered: true, peergroup: underlay}
+    - {interface: swp52, unnumbered: true, peergroup: underlay}
+    - {interface: swp53, unnumbered: true, peergroup: underlay}
+    - {interface: swp54, unnumbered: true, peergroup: underlay}
+  address_family:
+    - name: ipv4_unicast
+      redistribute:
+        - {type: connected}
+    - name: l2vpn_evpn
+      neighbors:
+        - {interface: underlay, activate: true}
+      advertise_all_vni: true
+  vrfs:
+    - name: RED
+      router_id: "192.0.2.1"
+      address_family:
+        - name: ipv4_unicast
+          redistribute:
+            - {type: connected}
+        - name: l2vpn_evpn
+          extras:
+            - "advertise ipv4 unicast"
+    - name: BLUE
+      router_id: "192.0.2.1"
+      address_family:
+        - name: ipv4_unicast
+          redistribute:
+            - {type: connected}
+        - name: l2vpn_evpn
+          extras:
+            - "advertise ipv4 unicast"

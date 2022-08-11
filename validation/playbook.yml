@@ -1,0 +1,19 @@
+- name: CUE Validation example
+  hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Validate input data model with CUE
+      cue_validate:
+        schema: "schemas/input.cue"
+        input: "{{ hostvars[inventory_hostname] | string | b64encode }}"
+      delegate_to: localhost
+
+    # Loosely based on https://gitlab.com/cumulus-consulting/goldenturtle/cumulus_ansible_modules/-/blob/master/roles/frr/tasks/main.yml
+   
+    - name: Configure FRR
+      template:
+        src: "frr.conf.j2"
+        dest: config/frr.conf
+        mode: 0640

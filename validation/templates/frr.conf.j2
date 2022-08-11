@@ -1,0 +1,75 @@
+!
+router bgp {{ bgp.asn }}
+ bgp router-id {{ bgp.router_id }}
+{% for extra in bgp.extras|default() %}
+ {{ extra }}
+{% endfor %}
+{% for peergroup in bgp.peergroups|default() %}
+ neighbor {{ peergroup.name }} peer-group
+ neighbor {{ peergroup.name }} remote-as {{ peergroup.remote_as }}
+{%   for extra in peergroup.extras|default() %}
+ neighbor {{ peergroup.name }} {{ extra }}
+{%   endfor %}
+{% endfor %}
+{% for neighbor in bgp.neighbors %}
+{%   if neighbor.unnumbered is defined and neighbor.unnumbered %}
+{%     if neighbor.peergroup is defined %}
+ neighbor {{ neighbor.interface }} interface peer-group {{ neighbor.peergroup }}
+{%     else %}
+ neighbor {{ neighbor.interface }} interface remote-as {{ neighbor.remote_as }}
+{%     endif %}
+{%   endif %}
+{% endfor %}
+ !
+{% for address_family in bgp.address_family|default() %}
+ !
+{%   if address_family.name == "ipv4_unicast" %}
+ address-family ipv4 unicast
+{%     for redistribute in address_family.redistribute|default() %}
+  redistribute {{ redistribute.type }}
+{%     endfor %}
+ exit-address-family
+{%   elif address_family.name == "l2vpn_evpn" %}
+ address-family l2vpn evpn
+{%     for neighbor in address_family.neighbors|default() %}
+{%       if neighbor.activate|default(False) %}
+  neighbor {{ neighbor.interface }} activate
+{%       endif %}
+{%     endfor %}
+{%     if address_family.advertise_all_vni|default(False) %}
+  advertise-all-vni
+{%     endif %}
+{%     if address_family.advertise_default_gw|default(False) %}
+  advertise-default-gw
+{%     endif %}
+ exit-address-family
+{%   endif %}
+{% endfor %}
+!
+{### MPBGP ###}
+{% for vrf in bgp.vrfs|default() %}
+router bgp {{ bgp.asn }} vrf {{ vrf.name }}
+ bgp router-id {{ vrf.router_id }}
+{%   for extra in vrf.extras|default() %}
+ {{ extra }}
+{%   endfor %}
+{### MPBGP Address Families ###}
+{%   for address_family in vrf.address_family|default() %}
+{%     if address_family.name == "ipv4_unicast" %}
+ !
+ address-family ipv4 unicast
+{%       for redistribute in address_family.redistribute|default() %}
+  redistribute {{ redistribute.type }}
+{%       endfor %}
+ exit-address-family
+{%     elif address_family.name == "l2vpn_evpn" %}
+ !
+ address-family l2vpn evpn
+{%       for extra in address_family.extras|default() %}
+  {{ extra }}
+{%       endfor %}
+ exit-address-family
+{%     endif %}
+{%   endfor %}
+!
+{% endfor %}
