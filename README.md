@@ -3,6 +3,9 @@ Exploring the following topics:
 
 * Comparing CUE with Ansible
 * Migrating from Ansible to CUE
+    * [Using CUE to validate Ansible host variables](./validation)
+    * [Migrating Jinja template to CUE and using CUE scripting for inventory management.](./jinja)
+    * Data transformation with CUE
 
 
 ## Resource Utilisation Comparison
