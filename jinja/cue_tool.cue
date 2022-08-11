@@ -10,10 +10,12 @@ import (
 
 )
 
-device1: ["172.20.20.2"]
+device1: ["172.17.0.3"]
 inventory: device1
-username:  "admin"
-password:  *"admin" | string @tag(password)
+//username:  "admin"
+//password:  *"admin" | string @tag(password)
+username: "root"
+password: "root"
 auth:      base64.Encode(null, "\(username):\(password)")
 
 jsonrpc_body: {
@@ -86,7 +88,7 @@ command: "apply-eos": {
 
 #frr_wrapper: {
 	input: [...string]
-	output: ["configure"] + input + ["write"]
+	output: ["'configure'"] + input + ["'end'"] + ["'write'"]
 }
 
 command: "test-frr": {
@@ -104,6 +106,33 @@ command: "test-frr": {
 
 			print: cli.Print & {
 				text: strings.Join(wrapped_commands.output, "\n")
+			}
+
+		}
+	}
+}
+
+command: "apply-frr": {
+
+	for _, device in inventory {
+		(device): {
+			cli_commands: exec.Run & {
+				cmd: ["j2", "-f", "json", "frr/frr.j2", "-"]
+				stdin:  json.Marshal(nvidia)
+				stdout: string
+			}
+			#split: strings.Split(cli_commands.stdout, "\n")
+
+			split_commands: [ for x in #split if x != "", if x != "!", if x != " !" {"\"\(x)\""}]
+
+			wrapped_commands: #frr_wrapper & {input: split_commands}
+
+			script: strings.Join(wrapped_commands.output, " -c ")
+
+			apply: exec.Run & {
+				cmd: ["sshpass", "-p", password, "ssh", "\(username)@\(device)", "vtysh", "-c", "\(script)"]
+				stdout: string
+				stderr: string
 			}
 
 		}
