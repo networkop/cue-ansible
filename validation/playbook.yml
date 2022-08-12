@@ -1,4 +1,4 @@
-- name: CUE Validation example
+- name: Ansible data transformation example
   hosts: all
   gather_facts: false
   connection: local

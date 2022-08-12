@@ -9,7 +9,12 @@ Any existing Ansible playbook that implements data transformation. Most often th
 * By creating a structured document (e.g. YAML) [using string interpolation](https://gitlab.com/nvidia-networking/systems-engineering/poc-support/cumulus_ansible_modules-nvue/-/blob/main/roles/nvue/templates/features/bgp.j2).
 * By manipulating data structures [using Jinja's expression statements](https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/templates/underlay/vlans.j2) (e.g. `set` and `do` tags).
 
-The following example is based on the MLAG configuration from Arista's [ansible-avd](https://github.com/aristanetworks/ansible-avd) repository.
+The following example is based on the MLAG configuration from Arista's [ansible-avd](https://github.com/aristanetworks/ansible-avd) repository. I've adapted the `eos_designs` role to only generate the structured MLAG configuration. The local `playbook.yml` does two things:
+
+1. Sets host variables based on local variables defined in `group_vars/all.yml`.
+2. Uses Jinja (via `template` module) to tranform the local input variables into a per-device low-level structured configuration.
+
+This playbook is only included to generate the low-level data model for later comparison with CUE's generated data model.
 
 1. Import high-level data model into CUE
 
