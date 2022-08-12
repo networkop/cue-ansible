@@ -133,20 +133,31 @@ func main() {
 	v, err := codec.Decode(input)
 	r.check(err, "Could not decode input as CUE values")
 
-	u := s.Unify(v)
+	iter, err := s.Fields([]cue.Option{
+		cue.Definitions(false),
+		cue.Docs(false),
+		cue.Hidden(false),
+	}...)
+	r.check(err, "Could not create iterator for schema")
 
-	// check for errors during unification
-	if u.Err() != nil {
-		msg := errors.Details(u.Err(), nil)
-		r.check(err, "Could unify input with CUE schema: "+msg)
-	}
+	// iterate over schema values and validate input variables
+	for iter.Next() {
+		inVal := v.LookupPath(cue.ParsePath(iter.Selector().String()))
+		u := iter.Value().Unify(inVal)
 
-	// To get all errors, we need to validate
-	if err := u.Validate(
-		cue.Concrete(true),
-	); err != nil {
-		msg := errors.Details(err, nil)
-		r.check(err, "Schema validation failed: "+msg)
+		// check for errors during unification
+		if u.Err() != nil {
+			msg := errors.Details(u.Err(), nil)
+			r.check(err, "Could unify input with CUE schema: "+msg)
+		}
+
+		// To get all errors, we need to validate
+		if err := u.Validate(
+			cue.Concrete(true),
+		); err != nil {
+			msg := errors.Details(err, nil)
+			r.check(err, "Schema validation failed: "+msg)
+		}
 	}
 
 	r.Msg = "Input data successfully validated"
