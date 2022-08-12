@@ -1,0 +1,21 @@
+- name: CUE Validation example
+  hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    # Loosely based on https://github.com/aristanetworks/ansible-avd/blob/devel/ansible_collections/arista/avd/roles/eos_designs/tasks/main.yml
+   
+    - name: Set eos_designs facts per device
+      tags: [build, provision, facts]
+      ansible.builtin.set_fact:
+        switch: "{{ avd_switch_facts[inventory_hostname].switch }}"
+      delegate_to: localhost
+      changed_when: false
+
+    - name: Generate device configuration in structured format
+      tags: [build, provision]
+      ansible.builtin.template:
+        src: "main.j2"
+        dest: "out/{{ inventory_hostname }}.yml"
