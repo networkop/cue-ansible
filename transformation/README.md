@@ -1,6 +1,6 @@
 # Data Transformation with CUE
 
-The process of conversion of one, usually small and high-level data model into another, verbose and low-level data model used to generate the final configuration.
+The process of conversion of one, usually small and high-level data model into another, verbose and low-level data model. The low-level data model could be the actual intended device configuration, if its API supports structured data, or it can be used to generate the final configuration using a template.
 
 0. Starting point
 
